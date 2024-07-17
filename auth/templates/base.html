@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Authentication Page</title>
+    <title>Game Project</title>
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome for icons -->
@@ -15,7 +15,7 @@
              display: flex;
              justify-content: center;
              align-items: center;
-             background: #8181bf;
+             background: #8892cd;
              background-image: url('https://source.unsplash.com/random/1920x1080?nature,water');
              background-size: cover;
              background-repeat: no-repeat;
@@ -24,7 +24,7 @@
          .auth-container {
              max-width: 400px;
              padding: 2rem;
-             background: rgba(199, 255, 153, 0.85);
+             background: rgb(78, 98, 209);
              border-radius: 10px;
              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
              animation: fadeIn 1s ease-in-out;
@@ -52,16 +52,17 @@
              transform: translateY(-50%);
              color: #6c757d;
          }
-         input, button {
+         input, button, a {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
          }
-
-         label {
-
+         h2 {
+             font-family: "Courier New",serif;
          }
     </style>
 </head>
 <body>
-    {% block content %} {% endblock %}
+    <div class="container mt-4">
+        {% block content %} {% endblock %}
+    </div>
 </body>
 </html>
