@@ -19,7 +19,9 @@ def auth():
         user = cx.collections.find_one({"login": login})
         if user and check_password(password, user['password']):
             flash('Login Successful!', 'success')
-            return redirect(url_for('auth'))
+            #return redirect(url_for('auth'))
+            user_info = f"{login}"
+            return redirect(f'http://127.0.0.1:5002/?user_info={user_info}')
         else:
             flash("Wrong login or password!", "danger")
             return redirect(url_for('auth'))
@@ -45,6 +47,7 @@ def register():
         else:
             flash('Email already registered', 'danger')
     return render_template("register.html")
+
 
 @app.route('/restore_password', methods=['GET', 'POST'])
 def restore_password():

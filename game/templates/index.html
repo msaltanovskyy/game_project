@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .container {
+        width: 100%;
+        height: 300px;
+        background: linear-gradient(90deg, #007bff, #0056b3);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        font-weight: bold;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        text-align: center;
+    }
+    .container p {
+        margin: 0;
+        padding: 10px 0;
+        font-size: 32px;
+        letter-spacing: 1.5px;
+    }
+    .btn {
+        background: #ff4b5c;
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        font-size: 20px;
+        font-weight: bold;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        margin-top: 20px;
+    }
+    .btn:hover {
+        transform: scale(1.1);
+    }
+    .start-btn {
+        background: #25b505;
+        margin-bottom: 15px;
+    }
+    .start-btn:hover {
+        background: #2af324;
+    }
+    .logout-btn {
+        background: #ff4b5c;
+    }
+    .logout-btn:hover {
+        background: #e0434f;
+    }
+</style>
+<div class="container m-4">
+    <p>Welcome, {{ user_info }}!</p>
+    <button class="btn start-btn" onclick="window.location.href='/start'">Start</button>
+    <button class="btn logout-btn" onclick="window.location.href='/logout'">Logout</button>
+</div>
+{% endblock %}

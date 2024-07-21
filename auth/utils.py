@@ -10,5 +10,4 @@ def encryption(password):
 
 def check_password(input_password, hashed_password):
     input_hashed_password = encryption(input_password)
-    print(f"input_hashed_password: {input_hashed_password}, hashed_password: {hashed_password}")
     return input_hashed_password == hashed_password
