@@ -1,9 +1,9 @@
 import datetime
-
 from flask import Flask, render_template, redirect, url_for, request, flash,session
 from context import database as cx
-from utils import check_password, encryption
-
+from werkzeug.security import generate_password_hash, check_password_hash
+from utils import generate_token #создание токена
+from markupsafe import escape #экранирование запроса
 
 app = Flask("auth", template_folder="templates")
 app.secret_key = "123"
@@ -12,7 +12,8 @@ app.secret_key = "123"
 @app.route('/')
 def index():
     if 'login' in session:
-        return redirect(f'http://127.0.0.1:5002/?user_info={session["login"]}')
+        token = generate_token(session['login'])
+        return redirect(f'http://127.0.0.1:5002/?user_info={token}')
     return redirect('/auth')
 
 
@@ -22,11 +23,12 @@ def auth():
         login = request.form['login']
         password = request.form['password']
         remember = 'remember' in request.form
-        user = cx.collections.find_one({"login": login})
-        if user and check_password(user['password'], password):
+        user = cx.collections.find_one({"login": escape(login)})
+        if user and check_password_hash(user['password'], password):
             session['login'] = login
+            token = generate_token(login)
             flash('Login Successful!', 'success')
-            response = redirect(f'http://127.0.0.1:5002/?user_info={login}')
+            response = redirect(f'http://127.0.0.1:5002/?user_info={token}')
             if remember:
                 session.permanent = True
                 app.permanent_session_lifetime = datetime.timedelta(days=30)
@@ -43,8 +45,8 @@ def register():
         nick = request.form['nick']
         login = request.form['login']
         password = request.form['password']
-        hash_password = encryption(password)  # SHA512
-        if cx.collections.find_one({"login": login}) is None:
+        hash_password = generate_password_hash(password)
+        if cx.collections.find_one({"login": escape(login)}) is None:
             user = {
                 "nick": nick,
                 "login": login,
@@ -62,7 +64,7 @@ def register():
 def restore_password():
     if request.method == 'POST':
         login = request.form['login']
-        user = cx.collections.find_one({"login": login})
+        user = cx.collections.find_one({"login": escape(login)})
         if user:
 
             flash('Password reset instructions have been sent to your email.', 'success')
