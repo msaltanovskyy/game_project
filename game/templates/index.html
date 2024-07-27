@@ -57,6 +57,8 @@
 <div class="container m-4">
     <p>Welcome!</p>
     <button class="btn start-btn" onclick="window.location.href='/start'">Start</button>
-    <button class="btn logout-btn" onclick="window.location.href='http://127.0.0.1:5001/logout'">Logout</button>
+    <form action="/logout" method="post">
+            <button class="btn logout-btn" type="submit">Logout</button>
+    </form>
 </div>
 {% endblock %}
