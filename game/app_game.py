@@ -1,12 +1,8 @@
 from flask import Flask, render_template, request, redirect
-
+from config import auth
 app = Flask("game", template_folder="templates")
 app.secret_key = "123"
 
-#app_auth conf
-protocol = "http"
-ip_auth = "127.0.0.1"
-port = 5001
 
 @app.route('/')
 def index():
@@ -18,10 +14,10 @@ def index():
 
 @app.route('/logout', methods=['POST'])
 def logout():
-    return redirect(f'{protocol}://{ip_auth}:{port}/logout')
+    return redirect(f'{auth.protocol}://{auth.ip}:{auth.port}/logout')
 
 
-@app.route('/start',methods=['GET','POST'])
+@app.route('/start', methods=['GET', 'POST'])
 def start():
     return render_template('start')
 

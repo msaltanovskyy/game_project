@@ -1,25 +1,19 @@
 import datetime
-from flask import Flask, render_template, redirect, url_for, request, flash,session
+from flask import Flask, render_template, redirect, url_for, request, flash, session
 from context import database as cx
 from werkzeug.security import generate_password_hash, check_password_hash
 from utils import generate_token
 from markupsafe import escape
-
+from config import game
 app = Flask("auth", template_folder="templates")
 app.secret_key = "123"
-
-
-#app_game conf
-protocol = "http"
-app_game = "127.0.0.1"
-port = 5002
 
 
 @app.route('/')
 def index():
     if 'login' in session:
         token = generate_token(session['login'])
-        return redirect(f'{protocol}://{app_game}:{port}/?user_info={token}')
+        return redirect(f'{game.protocol}://{game.ip}:{game.port}/?user_info={token}')
     return redirect('/auth')
 
 
@@ -34,7 +28,7 @@ def auth():
             session['login'] = login
             token = generate_token(login)
             flash('Login Successful!', 'success')
-            response = redirect(f'{protocol}://{app_game}:{port}/?user_info={token}')
+            response = redirect(f'{game.protocol}://{game.ip}:{game.port}/?user_info={token}')
             if remember:
                 session.permanent = True
                 app.permanent_session_lifetime = datetime.timedelta(days=30)
