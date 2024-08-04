@@ -1,7 +1,17 @@
-class ConfigAuth(object):
-    protocol = "http"
-    ip = "127.0.0.1"
-    port = 5001
+
+class Config(object):
+    SECRET_KEY = "123"
+    SESSION_TYPE = 'filesystem'
+    PERMANENT_SESSION_LIFETIME = 30
 
 
-auth = ConfigAuth()
+class ConfigAuthServices(object):
+    PROTOCOL = "http"
+    IP = "127.0.0.1"
+    PORT = 5001
+
+    def get_url(self):
+        return f"{self.PROTOCOL}://{self.IP}:{self.PORT}"
+
+
+auth = ConfigAuthServices()

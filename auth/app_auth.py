@@ -4,16 +4,16 @@ from context import database as cx
 from werkzeug.security import generate_password_hash, check_password_hash
 from utils import generate_token
 from markupsafe import escape
-from config import game
+import config
 app = Flask("auth", template_folder="templates")
-app.secret_key = "123"
+app.config.from_object(config.Config)
 
 
 @app.route('/')
 def index():
     if 'login' in session:
         token = generate_token(session['login'])
-        return redirect(f'{game.protocol}://{game.ip}:{game.port}/?user_info={token}')
+        return redirect(f'{config.game.get_url()}/?user_info={token}')
     return redirect('/auth')
 
 
@@ -28,7 +28,7 @@ def auth():
             session['login'] = login
             token = generate_token(login)
             flash('Login Successful!', 'success')
-            response = redirect(f'{game.protocol}://{game.ip}:{game.port}/?user_info={token}')
+            response = redirect(f'{config.game.get_url()}/?user_info={token}')
             if remember:
                 session.permanent = True
                 app.permanent_session_lifetime = datetime.timedelta(days=30)
